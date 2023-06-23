@@ -1,0 +1,292 @@
+body{
+    background-color:#FF1D58;
+    margin: -25px;
+}
+
+.mybody{
+    margin: 0;
+}
+h1,h2{
+    text-align: center;
+    font-family: cursive;
+    font-weight: 15px;
+}
+
+.mydiv{
+    width: 50%;
+    height: 500px;
+    background-color: #FFF685;
+    margin: 3% auto;
+}
+input{
+    float: right;
+    padding: 10px;
+    margin-right: 5%;
+    padding: 5px 7px;
+    width: 50%;
+    margin-top: 15px;
+}
+
+label{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    padding: 10px 10px;
+    font-weight: bold;
+    margin-top: 10%;
+    position: relative;
+    top:20px;
+}
+
+.newdiv{
+    width:90%;
+    height: 50px;
+    background-color: #00DDFF;
+    margin: 10px;
+}
+
+.innerdiv{
+    height: 350px;
+    width: 80%;
+    position: relative;
+    top: 40px;
+    margin: 0px auto;
+}
+
+.innerdiv .lastdiv
+{
+    width: 30%;
+    margin: 20px auto;
+}
+
+.lastdiv input{
+    margin-top: 2%;
+    margin-left: 30px;
+    float: none;
+    padding : 10px 10px;
+    width: 70%;
+}
+
+.admin{
+    background-color: #9DF9EF;
+}
+
+.mydiv .myadmin{
+    top: 60px;
+}
+
+.topdiv
+{
+    height: 400px;
+}
+
+.sign
+{
+    position: absolute;
+    top: 75%;
+    left: 70%;
+}
+header{
+    width: 100%;
+    background-color: #0049B7;
+    height: 50px;
+    position: relative;
+    top: 0;
+}
+.mydiv .login
+{
+    top: 15px;
+}
+
+.mydiv .logged{
+    top: 42%;
+    left: 72%;
+}
+.login input{
+    margin-right: 6%;
+}
+
+.login .newdiv{
+    width: 70%;
+    margin: 10px auto;
+}
+
+.login .lastdiv{
+    width: 30%;
+    margin-top: 5%;
+}
+
+.login .lastdiv input{
+margin-left: 28px;
+margin-top: 3%;
+}
+
+.thelogin{
+    height:350px;
+}
+li{
+    float: left;
+}
+
+nav{
+    width: 100;
+    background-color: #f2d53c;
+    height: 50px;
+    padding: 10px 10px;
+}
+
+ul{
+    list-style-type: none;
+}
+
+.otherlist{
+    float: right;
+    padding: 0 10px;
+}
+
+.other-items{
+float: right;
+margin-right: 2%;
+}
+
+.other-items li{
+    padding: 10px;
+    display: inline;
+}
+
+a li:hover{
+    background-color: #FF1D58;
+}
+
+.myhomepage{
+    top: -20px;
+}
+.homes{
+    padding: 5px;
+    font-family: cursive;
+    font-size:20px ;
+}
+
+.passworddata{
+    position: absolute;
+    top:60%;
+    color: red;
+    left: 40%;
+}
+
+.top-item-div{
+    width: 35%;
+    height: 650px;
+    background-color: yellow;
+    position: absolute;
+    top: 20%;
+    left:32%;
+}
+
+.all-items{
+    width:90%;
+    position: absolute;
+    background-color: #E7DECC;
+    height: 60px;
+    margin-left: 5%;
+}
+
+.itemsname{
+    top:5%;
+}
+
+.itemsquantity{
+    top:15%;
+}
+
+.itemPrice{
+    top:25%;
+}
+.itemDesc{
+    top:35%;
+    height: 200px;
+}
+
+.itemImage{
+    top:66.5%;
+}
+
+.submit{
+    top:77%;
+    width: 20%;
+    left:33%;
+    height: 40px;
+}
+
+.submit input{
+    margin-right: 25%;
+    margin-top: 5px;
+    width:55%;
+}
+
+.itemDesc input[type=text-area]{
+    height: 150px;
+}
+
+.itemDesc label{
+    top:35%;
+}
+
+.items-div{
+
+    position:absolute;
+    left: 3%;
+    height: auto;
+}
+
+.item-details{
+    display: inline-block;
+    margin: 20px 20px;
+    border: 1px black solid;
+    width: 20%;
+}
+
+.no-item h3{
+text-align: center;
+}
+.myimage{
+    width: 100%;
+    position: relative;
+    left: 25%;
+    top:50%;
+    margin-top: 20px;
+}
+
+.myimage img{
+    width: 50%;
+}
+
+.data-items{
+    width:50%;
+    height: auto;
+    position: relative;
+    left: 25%;
+}
+
+.item-details button{
+    position: relative;
+    left: 40%;
+    margin-bottom: 10px;
+}
+
+.regular-user-signup{
+    width: 20%;
+    height: 200px;
+}
+
+.signupbody{
+    background-color: #FF1D58;
+    margin: 0;
+}
+
+.regular-user-signup button{
+   padding: 20px;
+   position: absolute;
+   top: 40%;
+   left: 30%;
+   display: inline-block;
+}

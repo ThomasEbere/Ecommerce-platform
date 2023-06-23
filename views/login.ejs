@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Thomas E-commerce Store</h1>
+    </header>
+<div class="mydiv topdiv thelogin">
+    <h2>Please supply details to login</h2>
+    <form action="/login" method="POST">
+        <div class="innerdiv myadmin login ">
+    
+        <div class="newdiv">
+            <label for="email">Email</label>
+            <input type="text"  name="email">
+        </div>
+        <div class="newdiv">
+            <label for="phonenumber">Password</label>
+            <input type="password"  name="password">
+            <% if (locals.error) { %>
+                <p class="passworddata"><%= error %></p>
+            <%} else {%>
+            
+            <%} %>
+            
+      </div>
+        <div class="newdiv lastdiv">
+        <input type="submit"  name="" value="submit" class="loginsub">
+    </div>
+    <a href="signup.html" class="sign logged">sign up</a>
+</div>
+    </form>
+</div>
+</body>
+</html>

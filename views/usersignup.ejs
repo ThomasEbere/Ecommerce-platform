@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin">
+    <header>
+        <h1>Welcome to Thomas E-Commerce Store</h1>
+    </header>
+<div class="mydiv topdiv">
+    <form action="/create-user" method="POST">
+        <div class="innerdiv myadmin">
+            <div class="newdiv firstdiv">
+                <label for="firstname">firstname</label>
+                <input type="text"  name="first_name" required>
+            </div>
+            <div class="newdiv">
+                <label for="firstname">lastname</label>
+                <input type="text"  name="last_name" required>
+            </div>
+            <div class="newdiv">
+                <label for="email">Email</label>
+                <input type="text"  name="email" required>
+            </div>
+            <div class="newdiv">
+                <label for="password">Password</label>
+                <input type="password"  name="password" required>
+            </div>  
+            <div class="newdiv lastdiv">
+            <input type="submit"  name="" value="submit">
+        </div>
+        <a href="login.html" class="sign">sign in</a>
+</div>
+    </form>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

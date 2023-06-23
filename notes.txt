@@ -1,0 +1,7 @@
+Create a new cluster
+Create a new database and a new collection
+Choose connection method
+Create database schema
+Create a model
+Install Mongoose using npm install mongoose
+To get the data from the form you need to add (app.use(express.urlencoded({ extended:true})))

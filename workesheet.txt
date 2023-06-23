@@ -1,0 +1,49 @@
+email confirmation
+Create session upon login 
+Create view to create items for sale
+Items are to have the following:
+Item name
+Item price
+Item Description
+Item quantity
+Item Image
+Items are to go to admin for approval
+Admins can approve or reject items created
+Once admins approve, items appear on the homepage of the application
+Once admins reject, items gets moved to rejected column
+
+//Used NodeTestfile to test the file for sending configurable emails and generated random numbers
+Once user signs up, do the following:
+Create user model with id sent to the database. 
+Send the user an email to confirm account
+User clicks on the link and then confirm if the ids match.
+If the Ids match then route the user to the login screen.
+If the Ids do not match then tell the user that their ids do not match 
+
+
+###############
+upnext
+Update activated in the database to True
+display correct message to the browser when the password is wrong
+Once user is logged in, enable create items button for the user
+
+########
+continue from this tutorial on how to upload and reyrive images
+https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/
+continue from the the NodeTestfile
+
+
+
+continue here
+Research why session destroys when app crashes
+pass items data to db 
+fetch items data to the view 
+
+
+Stripe check out 
+
+https://medium.com/@Bigscal-Technologies/how-to-integrate-stripe-payment-apis-using-node-js-566bfdad5850
+https://dashboard.stripe.com/test/apikeys
+
+finish up sign up flow for both admin and regular user
+

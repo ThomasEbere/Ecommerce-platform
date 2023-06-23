@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('../partials/head.ejs') %>
+<body>
+    <%- include ('../partials/nav.ejs') %>
+   <header class="myhomepage">
+    <h2>Welcome to the items Page <%= myFirstName %></h2>
+   </header>
+   <% if (result.length>0){%>
+    <div class="items-div">
+        <% result.forEach(result =>{%>
+            <div class="item-details">
+                <div class="myimage">
+                    <img src="data:result/<%=result.image.contentType%>;base64,
+                    <%=result.image.data.toString('base64')%>"/>
+                </div>
+                <div class="data-items">
+            <h3> Item Name: <%= result.item_Name %></h3>
+            <h3>Item Price: <%= result.price %></h3>
+            <h3>Item Description: <%= result.Description %></h3>
+        </div>
+        <button><a href="/purchase/<%= result.item_Name %>/<%= result.price %>">purchase</a></button>
+        </div>
+        <%})%>
+    </div>
+
+   <%} else {%>
+
+    <div class="no-item">
+        <h3>No Items Created</h3>
+    </div>
+    
+
+   <%}%>
+</body>
+</html>
