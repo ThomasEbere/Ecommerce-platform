@@ -287,6 +287,37 @@ text-align: center;
    padding: 20px;
    position: absolute;
    top: 40%;
-   left: 30%;
    display: inline-block;
+}
+
+.regular-user-signup .adminsignup{
+left:50%;
+}
+
+.regular-user-signup .userssignup{
+    left:35%;
+    }
+
+.signupheader{
+    text-align: center;
+}
+
+.signupheader p{
+    margin:0px;
+    padding-top:1px ;
+    font-size: 30px;
+    font-family: cursive;
+}
+
+.items-error{
+    width: 15%;
+    height: 50px;
+    position: absolute;
+    top: 22%;
+    left: 40%;
+}
+
+.items-error p{
+    display: inline;
+    font-size: 100px;
 }

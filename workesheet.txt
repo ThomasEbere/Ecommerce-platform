@@ -46,4 +46,6 @@ https://medium.com/@Bigscal-Technologies/how-to-integrate-stripe-payment-apis-us
 https://dashboard.stripe.com/test/apikeys
 
 finish up sign up flow for both admin and regular user
-
+Create item management for admins 
+create checkout page for users
+Investigate why upon first login, the login function does not work.

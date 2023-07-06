@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include ('../partials/head3.ejs') %>   
+</head>
+<body>
+    <%- include ('../partials/nav.ejs') %>  
+
+    <% if (data!=null){%>
+        <div class="items-div">
+            <% data.forEach(data =>{%>
+                <div class="item-details">
+                    <div class="myimage">
+                        <img src="data:data/<%=data.image.contentType%>;base64,
+                        <%=data.image.data.toString('base64')%>"/>
+                    </div>
+                    <div class="data-items">
+                <h3> Item Name: <%= data.item_Name %></h3>
+                <h3>Item Price: <%= data.price %></h3>
+                <h3>Item Description: <%= data.Description %></h3>
+            </div>
+            <button><a href="/updateitem/<%=data._id%>">update</a></button>
+            <button><a href="">Delete</a></button>
+
+            </div>
+            <%})%>
+        </div>
+    
+       <%} else {%>
+        <div class="items-error">
+            <p class="">No items created</p>
+            <a href="/create-Items">Click here to create your first Item</a>
+            </div>            
+    <% } %>
+    
+</body>
+</html>

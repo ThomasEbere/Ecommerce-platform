@@ -5,6 +5,7 @@ const express = require ('express');
 const app = express();
 const mongoose=require('mongoose');
 const User=require('./models/user');
+const Admin = require('./models/admin');
 const sessions=require('express-session');
 const generated_id=require('./random');
 const { rawListeners } = require('./models/user');
@@ -101,8 +102,42 @@ app.post("/create-user", (req, res)=>{
     })
 })
 
-app.post("/login", (req, res)=>{
+app.get("/signupadmin", (req, res)=>{
 
+    res.render('adminsignup');
+})
+
+app.get("/usersignup", (req, res)=>{
+    res.render('usersignup');
+})
+
+app.post("/create-admin-user", (req, res)=>{
+    const admin = new Admin(req.body);
+    admin.role="admin";
+    admin.admingenerated_id=generated_id;
+    admin.password=admin.generateHash(req.body.password);
+    console.log(admin.admingenerated_id);
+    email.emailer(admin.email, 3,generated_id);
+    admin.save()
+    .then((result)=>{
+        res.redirect('/confirm')
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+})
+
+app.get("/adminhomepage", (req, res)=>{
+
+    res.render("adminhomepage");
+})
+
+
+app.get("/adminlogin", (req, res)=>{
+    res.render("adminlogin");
+})
+
+app.post("/login", (req, res)=>{
     const user= req.body.email;
     const password=req.body.password;
     User.findOne({email:user}).then(data=>{
@@ -119,6 +154,31 @@ app.post("/login", (req, res)=>{
       });
 });
 
+app.post("/adminlogin", (req, res)=>{
+
+    const user= req.body.email;
+    const password=req.body.password;
+    console.log("This is the value of " + user);
+    Admin.findOne({email:user}).then(data=>{
+        console.log(data);
+        console.log(data.email);
+        const firstName=data.first_name;
+        if (data.validPassword(password)) {
+            let email=data.email;
+            session=req.session;
+            session.email=email;
+          res.redirect("/adminhomepage");
+        } else {
+            let error1= "Bad password. Please try again";
+          res.render('adminlogin', {error1});
+        }
+      }).catch((err)=>{
+            let error2="User does not exit";
+        res.render('adminlogin', {error2});
+        console.log("User does not exist");
+      })
+});
+
 app.get('/explore', (req, res)=>{
             Item.find().then((result)=>{
                 res.render('explore', {title:'explore',result }); 
@@ -126,6 +186,24 @@ app.get('/explore', (req, res)=>{
                 console.log(err);
             })
         });
+
+app.get('/item-inventory', (req, res)=>{
+    let email=req.session.email;
+    Item.find({created_by:email}).then(data=>{
+        res.render('itemspage', {data});
+    }).catch((err)=>{
+        console.log("no items created");
+    })
+})
+
+app.get('/updateitem/:id', (req,res)=>{
+    const id=req.params.id;
+    console.log(id);
+    Item.findOne({_id:id}).then(data=>{
+        res.render('updateitems', {data})
+    })
+    
+})
 
 
 app.get('/homepage', (req, res)=>{
@@ -137,11 +215,12 @@ app.get('/homepage', (req, res)=>{
             // console.log(data.first_name);
             myFirstName=data.first_name;
             Item.find().then((result)=>{
-                res.render('homepage', {title:'homepage', myFirstName,result }); 
+                res.render('landingpage', {title:'homepage', myFirstName,result }); 
             }).catch((err)=>{
                 console.log(err);
             })
         })
+
     }
 });
 
@@ -160,22 +239,38 @@ app.get('/confirmaccount/:email/:id', (req, res)=>{
             }).catch(s=>{
                 console.log("Incorrect sign up");
             })
-            
+        }
+    })
+})
+
+app.get('/confirmaccount/admin/:email/:id', (req, res)=>{
+    const email= req.params.email;
+    const id = req.params.id;
+    console.log(email, id);
+    Admin.findOne({email:email}).then(data=>{
+        if(data.admingenerated_id==id){
+            Admin.updateOne({email:email}, {"$set":{"activated":true}}).then (e=>{
+                console.log("Got here to activate");
+                res.render('adminlogin');
+            }).catch(s=>{
+                console.log("Incorrect sign up");
+            })   
+        }
+        else{
+            console.log("Wrong ID. Please contact Admin");
         }
     })
 })
 
 app.get('/', (req, res)=>{
-    session=req.session;
-    if (session.email){
-        res.redirect('/homepage');
-    }
-    else{
-        res.render('login');
-    }
-    
-});
 
+    Item.find().then((result)=>{
+        res.render('homepage', {title:'homepage',result }); 
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+   
 app.get('/regularlogin', (req, res)=>{
     session=req.session;
     if (session.email){
