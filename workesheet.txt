@@ -49,3 +49,10 @@ finish up sign up flow for both admin and regular user
 Create item management for admins 
 create checkout page for users
 Investigate why upon first login, the login function does not work.
+
+add to cart
+add quantities to cart
+reduce item quantities after purchase
+send email of purchase after purchase
+capture address information of buyer both when logged in and not 
+send address information in email to vendor.

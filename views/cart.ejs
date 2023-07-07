@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include ('../partials/head3.ejs') %>   
-</head>
+    <%- include ('../partials/head.ejs') %>
 <body>
-    <%- include ('../partials/nav.ejs') %>  
+    <%- include ('../partials/nav3.ejs') %>
 
     <% if (data!=null){%>
         <div class="items-div">
@@ -19,6 +17,7 @@
                 <h3>Item Price: <%= data.price %></h3>
                 <h3>Item Description: <%= data.Description %></h3>
             </div>
+            <button><a href="/purchase/<%= data.item_Name %>/<%= data.price %>">checkout</a></button>
             <button><a href="/updateitem/<%=data._id%>">update</a></button>
             <button><a href="/delete/<%=data._id%>">Delete</a></button>
 

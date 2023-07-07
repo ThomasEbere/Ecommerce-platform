@@ -20,6 +20,8 @@
             <h3>Item Description: <%= result.Description %></h3>
         </div>
         <button><a href="/purchase/<%= result.item_Name %>/<%= result.price %>">purchase</a></button>
+        <button><a href="/cart/<%= result._id%>">Add to cart</a></button>
+
         </div>
         <%})%>
     </div>

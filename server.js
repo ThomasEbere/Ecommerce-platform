@@ -12,6 +12,7 @@ const { rawListeners } = require('./models/user');
 const email= require('./emails.js');
 const bodyParser=require('body-parser');
 const Item=require('./models/items');
+const Cart=require('./models/cart');
 const fs = require('fs');
 const path = require('path');
 const cookieParser=require("cookie-parser");
@@ -69,7 +70,6 @@ const storage = multer.diskStorage({
 const upload=multer({storage:storage});
 
 app.get('/add-user', (req,res)=>{
-
     const user =new User({
         first_name:"Thomas",
         last_name:"Ebere",
@@ -86,8 +86,8 @@ app.get('/add-user', (req,res)=>{
         });
 })
 
-app.post("/create-user", (req, res)=>{
 
+app.post("/create-user", (req, res)=>{
     console.log(req.body);
     const user=new User(req.body);
     user.usergenerated_id=generated_id;
@@ -111,6 +111,43 @@ app.get("/usersignup", (req, res)=>{
     res.render('usersignup');
 })
 
+app.get('/cart/:id', (req, res)=>{
+    const id = req.params.id;
+    console.log(id);
+    session=req.session;
+    if(session.email){
+        let email=req.session.email;
+        Item.findById({_id:id}).then(data=>{
+            const cart=new Cart(data);
+            cart._id=id;
+            cart.added_by=email;
+            cart.quantity=1;
+            cart.isNew=true;
+            cart.save().then(result=>{
+                console.log("Item Successfully added to cart");
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+    else{
+        res.redirect('/regularlogin');
+    }
+
+})
+
+app.get("/cart", (req, res)=>{
+    let email=req.session.email;
+    Cart.find({added_by:email}).then(data=>{
+        let title="cart";
+        res.render('cart', {data, title});
+    }).catch((err)=>{
+        console.log("no items created");
+    })
+})
+
 app.post("/create-admin-user", (req, res)=>{
     const admin = new Admin(req.body);
     admin.role="admin";
@@ -128,7 +165,6 @@ app.post("/create-admin-user", (req, res)=>{
 })
 
 app.get("/adminhomepage", (req, res)=>{
-
     res.render("adminhomepage");
 })
 
@@ -155,7 +191,6 @@ app.post("/login", (req, res)=>{
 });
 
 app.post("/adminlogin", (req, res)=>{
-
     const user= req.body.email;
     const password=req.body.password;
     console.log("This is the value of " + user);
@@ -205,6 +240,31 @@ app.get('/updateitem/:id', (req,res)=>{
     
 })
 
+app.post('/update/:id',upload.single('image'), (req, res)=>{
+    let email=req.session.email;
+    const newid=req.params.id;
+    const items=new Item(req.body);
+    items._id=newid;
+    items.image={
+        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+        contentType:'image/png'
+        }
+    items.created_by=email;
+    Item.updateOne({_id:newid}, {"$set":{"item_Name":items.item_Name, "quantity":items.quantity, "price":items.price,"Description":items.Description,"image":items.image,"updatedAt":items.updatedAt}}).then(data=>{
+        res.redirect('/item-inventory');
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+app.get("/delete/:id", (req, res)=>{
+    const id = req.params.id;
+    Item.findByIdAndDelete(id).then(result=>{
+        res.redirect("/item-inventory");
+    }).catch(err=>{
+        console.log("No items to delete");
+    })
+})
 
 app.get('/homepage', (req, res)=>{
     session=req.session;

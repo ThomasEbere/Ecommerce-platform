@@ -6,6 +6,34 @@
 <body>
     <%- include ('../partials/nav.ejs') %>   
 
-    
+    <h2>Update Item Details</h2>
+    <div class="top-item-div">
+        <form action="/update/<%= data._id%>" method="POST" enctype="multipart/form-data">
+            <div class="all-items itemsname">
+                <label for="itemName" class="items">Item Name</label>
+                <input type="text" name="item_Name" class="itemsInput" value=<%= data.item_Name%>>
+            </div>
+            <div class="all-items itemsquantity">
+                <label for="itemsdescription" class="items"> quantity</label>
+                <input type="text" name="quantity" class="itemsInput" value=<%= data.quantity%>>
+            </div>
+            <div class="all-items itemPrice">
+                <label for="itemPrice" class="items">Price</label>
+                <input type="text" name="price" class="itemsInput" value=<%= data.price%>>
+            </div>
+            <div class="all-items itemDesc">
+                <label for="itemName" class="items">Description</label>
+                <input type="text-area"  row="100" col ="50" name="Description" class="itemsInput" value="<%= data.Description%>">
+            </div>
+            <div class="all-items itemImage">
+                <label for="itemName" class="items">upload Image</label>
+                <input type="file" name="image" class="itemsInput">
+            </div>
+            <div class="all-items submit">
+                <input type="submit"  value="Update" class="itemsInput">
+            </div>
+        </form>
+    </div>
+
 </body>
 </html>
