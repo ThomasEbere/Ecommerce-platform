@@ -13,14 +13,17 @@
                         <%=data.image.data.toString('base64')%>"/>
                     </div>
                     <div class="data-items">
-                <h3> Item Name: <%= data.item_Name %></h3>
-                <h3>Item Price: <%= data.price %></h3>
-                <h3>Item Description: <%= data.Description %></h3>
+                <h3><%= data.item_Name %></h3>
+                <h3>$<%= data.price %></h3>
+                <h3><%= data.Description %></h3>
+                <h3>quantity:<%= data.quantity %></h3>
             </div>
-            <button><a href="/purchase/<%= data.item_Name %>/<%= data.price %>">checkout</a></button>
-            <button><a href="/updateitem/<%=data._id%>">update</a></button>
+            <div class="items-button">
+            <button><a href="/purchase/<%= data.item_Name %>/<%= data.price %>/<%= data.quantity %>">checkout</a></button>
+            <button><a href="/add-item/<%=data._id%>">Add</a></button>
             <button><a href="/delete/<%=data._id%>">Delete</a></button>
-
+            <button><a href="/sub-item/<%=data._id%>">Reduce</a></button>
+        </div>
             </div>
             <%})%>
         </div>

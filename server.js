@@ -117,25 +117,36 @@ app.get('/cart/:id', (req, res)=>{
     session=req.session;
     if(session.email){
         let email=req.session.email;
-        Item.findById({_id:id}).then(data=>{
-            const cart=new Cart(data);
-            cart._id=id;
-            cart.added_by=email;
-            cart.quantity=1;
-            cart.isNew=true;
-            cart.save().then(result=>{
-                console.log("Item Successfully added to cart");
-            }).catch((err)=>{
-                console.log(err);
-            })
-        }).catch(err=>{
-            console.log(err)
-        })
+        Cart.findById({_id:id}).then(data=>{
+            if(data){
+            console.log(data.quantity);
+            let newQuantity=parseInt(data.quantity)+1;
+            console.log(newQuantity);
+            myquantity=newQuantity.toString();
+            console.log(myquantity);
+            Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
+            }else{
+                Item.findById({_id:id}).then(data=>{
+                    const cart=new Cart(data);   
+                    cart._id=id;
+                    cart.added_by=email;
+                    cart.quantity=1;
+                    cart.isNew=true;
+                    cart.save().then(result=>{
+                        console.log("Item Successfully added to cart");
+                        res.redirect('/');
+                    }).catch((err)=>{
+                        console.log(err);
+                    })
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
+        }) 
     }
     else{
         res.redirect('/regularlogin');
     }
-
 })
 
 app.get("/cart", (req, res)=>{
@@ -145,6 +156,32 @@ app.get("/cart", (req, res)=>{
         res.render('cart', {data, title});
     }).catch((err)=>{
         console.log("no items created");
+    })
+})
+
+app.get('/add-item/:id', (req, res)=>{
+    let id=req.params.id
+    console.log(id);
+    Cart.findById({_id:id}).then(data=>{
+        console.log(data.quantity);
+        let newQuantity=parseInt(data.quantity)+1;
+        console.log(newQuantity);
+        myquantity=newQuantity.toString();
+        console.log(myquantity);
+        Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
+    })
+})
+
+app.get('/sub-item/:id', (req, res)=>{
+    let id=req.params.id
+    console.log(id);
+    Cart.findById({_id:id}).then(data=>{
+        console.log(data.quantity);
+        let newQuantity=parseInt(data.quantity)-1;
+        console.log(newQuantity);
+        myquantity=newQuantity.toString();
+        console.log(myquantity);
+        Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
     })
 })
 
@@ -380,8 +417,17 @@ app.get("/logout", (req, res)=>{
 
 app.get('/purchase/:item_Name/:price', (req, res)=>{
     const itemname=req.params.item_Name;
+    let quantity=1;
     const price=req.params.price;
-    const newprice = price*100;
+    const newprice = price*100*quantity;
+    res.render('payment',{itemname, newprice, key:Publishable_key});
+})
+
+app.get('/purchase/:item_Name/:price/:quantity', (req, res)=>{
+    const itemname=req.params.item_Name;
+    let quantity=req.params.quantity;
+    const price=req.params.price;
+    const newprice = price*100*quantity;
     res.render('payment',{itemname, newprice, key:Publishable_key});
 })
 

@@ -232,17 +232,16 @@ a li:hover{
 }
 
 .items-div{
-
     position:absolute;
     left: 3%;
-    height: auto;
+    height: 400px;
 }
 
 .item-details{
     display: inline-block;
     margin: 20px 20px;
     border: 1px black solid;
-    width: 20%;
+    width: 15%;
 }
 
 .no-item h3{
@@ -269,7 +268,7 @@ text-align: center;
 
 .item-details button{
     position: relative;
-    left: 40%;
+    left: 7%;
     margin-bottom: 10px;
 }
 
@@ -320,4 +319,8 @@ left:50%;
 .items-error p{
     display: inline;
     font-size: 100px;
+}
+
+.item-details .homepage-item{
+    margin-left:15%;
 }

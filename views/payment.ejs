@@ -8,9 +8,8 @@
 </head>
 <body>
     <h3>Welcome to the payment page</h3>
-    <h3>Time to make payment for</h3>
-    <p><%= newprice %></p>
-    <p><%= itemname %></p>
+    <h3>Time to make payment for: <%= itemname %></h3>
+    <p>price:$<%= newprice/100 %></p>
 
     <form action="/payment/<%= newprice %>" method="POST">
         <script
