@@ -1,7 +1,7 @@
 const nodemailer=require('nodemailer');
 const genepass=require('./random.js');
 
-module.exports.emailer=(sender, options, generatedValue)=>{
+module.exports.paymentemail=(sender,itemname)=>{
     let transporter = nodemailer.createTransport({
         service:'gmail',
         auth:{
@@ -13,23 +13,9 @@ module.exports.emailer=(sender, options, generatedValue)=>{
     let mailoptions={
         from:"thomasebere119@gmail.com",
         to:sender,
-        subject:"Sending emails using node.js",
-        html:`Here is the email sent to you <a href=\"http://localhost:4100/confirmaccount/${sender}/${genepass}\">Welcome to the Party</a>`
-    };
-
-    let mailoption3={
-        from:"thomasebere119@gmail.com",
-        to:sender,
-        subject:"Sending emails using node.js",
-        html:`Here is the email sent to you <a href=\"http://localhost:4100/confirmaccount/admin/${sender}/${genepass}\">Welcome to the Party</a>`
-    };
-    
-    let mailoptions2={
-        from:"thomasebere119@gmail.com",
-        to:sender,
-        subject:"Sending emails using node.js",
-        text:`Second email text + " " + ${generatedValue}`
-    };
+        subject:"Successful Item Purchase",
+        html:`<p> Your purchase for ${itemname} was successful </p>`
+    }
     if(options==1)
     {
         transporter.sendMail(mailoptions, (error, info)=>{

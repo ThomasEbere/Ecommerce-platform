@@ -118,20 +118,21 @@ app.get('/cart/:id', (req, res)=>{
     if(session.email){
         let email=req.session.email;
         Cart.findById({_id:id}).then(data=>{
-            if(data){
-            console.log(data.quantity);
-            let newQuantity=parseInt(data.quantity)+1;
-            console.log(newQuantity);
-            myquantity=newQuantity.toString();
-            console.log(myquantity);
-            Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
+            if(data && data.added_by==email){
+                console.log(data.quantity);
+                let newQuantity=parseInt(data.quantity)+1;
+                console.log(newQuantity);
+                myquantity=newQuantity.toString();
+                console.log(myquantity);
+                Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
             }else{
                 Item.findById({_id:id}).then(data=>{
+                    data._id=null;
                     const cart=new Cart(data);   
-                    cart._id=id;
                     cart.added_by=email;
                     cart.quantity=1;
                     cart.isNew=true;
+                    cart.item_id=id;
                     cart.save().then(result=>{
                         console.log("Item Successfully added to cart");
                         res.redirect('/');
@@ -153,6 +154,7 @@ app.get("/cart", (req, res)=>{
     let email=req.session.email;
     Cart.find({added_by:email}).then(data=>{
         let title="cart";
+        console.log(data.length)
         res.render('cart', {data, title});
     }).catch((err)=>{
         console.log("no items created");
@@ -253,7 +255,8 @@ app.post("/adminlogin", (req, res)=>{
 
 app.get('/explore', (req, res)=>{
             Item.find().then((result)=>{
-                res.render('explore', {title:'explore',result }); 
+                console.log(result.item_Name);
+                res.render('homepage', {title:'explore',result }); 
             }).catch((err)=>{
                 console.log(err);
             })
@@ -360,12 +363,18 @@ app.get('/confirmaccount/admin/:email/:id', (req, res)=>{
 })
 
 app.get('/', (req, res)=>{
-
-    Item.find().then((result)=>{
-        res.render('homepage', {title:'homepage',result }); 
-    }).catch((err)=>{
-        console.log(err);
-    })
+    session=req.session
+    if(session.email){
+        Item.find().then((result)=>{
+            res.render('homepage', {title:'homepage',result }); 
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+    else{
+        res.redirect('/regularlogin');
+    }
+    
 })
    
 app.get('/regularlogin', (req, res)=>{

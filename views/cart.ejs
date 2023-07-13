@@ -4,7 +4,7 @@
 <body>
     <%- include ('../partials/nav3.ejs') %>
 
-    <% if (data!=null){%>
+    <% if (data.length>0){%>
         <div class="items-div">
             <% data.forEach(data =>{%>
                 <div class="item-details">
@@ -28,10 +28,11 @@
             <%})%>
         </div>
     
-       <%} else {%>
+       <%} 
+       else {%>
         <div class="items-error">
-            <p class="">No items created</p>
-            <a href="/create-Items">Click here to create your first Item</a>
+            <p class="">No items Added</p>
+            <a href="/">Click here to add your first Item</a>
             </div>            
     <% } %>
     
