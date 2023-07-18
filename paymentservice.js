@@ -1,7 +1,6 @@
 const nodemailer=require('nodemailer');
-const genepass=require('./random.js');
 
-module.exports.paymentemail=(sender,itemname)=>{
+module.exports.paymentemail=(sender,options, price)=>{
     let transporter = nodemailer.createTransport({
         service:'gmail',
         auth:{
@@ -14,7 +13,7 @@ module.exports.paymentemail=(sender,itemname)=>{
         from:"thomasebere119@gmail.com",
         to:sender,
         subject:"Successful Item Purchase",
-        html:`<p> Your purchase for ${itemname} was successful </p>`
+        html:`<p> Your payment of $${price} was succcessful </p>`
     }
     if(options==1)
     {
@@ -34,16 +33,5 @@ module.exports.paymentemail=(sender,itemname)=>{
                 console.log("Email sent: " + info.response);
             }
         })
-    }
-
-    else if (options ==3){
-        transporter.sendMail(mailoption3, (error, info)=>{
-            if(error){
-                console.log(error);
-            }else{
-                console.log("Email sent: " + info.response);
-            }
-        })
-    }
-    
+    } 
 }

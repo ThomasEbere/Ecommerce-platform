@@ -10,6 +10,7 @@ const sessions=require('express-session');
 const generated_id=require('./random');
 const { rawListeners } = require('./models/user');
 const email= require('./emails.js');
+const paymentService=require('./paymentservice.js');
 const bodyParser=require('body-parser');
 const Item=require('./models/items');
 const Cart=require('./models/cart');
@@ -256,7 +257,7 @@ app.post("/adminlogin", (req, res)=>{
 app.get('/explore', (req, res)=>{
             Item.find().then((result)=>{
                 console.log(result.item_Name);
-                res.render('homepage', {title:'explore',result }); 
+                res.render('explore', {title:'explore',result }); 
             }).catch((err)=>{
                 console.log(err);
             })
@@ -301,6 +302,15 @@ app.get("/delete/:id", (req, res)=>{
     const id = req.params.id;
     Item.findByIdAndDelete(id).then(result=>{
         res.redirect("/item-inventory");
+    }).catch(err=>{
+        console.log("No items to delete");
+    })
+})
+
+app.get("/cart/delete/:id", (req, res)=>{
+    const id = req.params.id;
+    Cart.findByIdAndDelete(id).then(result=>{
+        res.redirect("/cart");
     }).catch(err=>{
         console.log("No items to delete");
     })
@@ -378,14 +388,7 @@ app.get('/', (req, res)=>{
 })
    
 app.get('/regularlogin', (req, res)=>{
-    session=req.session;
-    if (session.email){
-        res.redirect('/explore');
-    }
-    else{
         res.render('login');
-    }
-    
 });
 
 app.get('/create-items', (req, res)=>{
@@ -463,6 +466,10 @@ app.post('/payment/:price', (req, res)=>{
         });
     })
     .then((charge) => {
+        console.log("This is for stripe");
+        console.log(req.body.stripeEmail);
+        console.log(req.params.price);
+        paymentService.paymentemail(req.body.stripeEmail, 1, req.params.price/100);
         res.send("Success")  // If no error occurs
     })
     .catch((err) => {
