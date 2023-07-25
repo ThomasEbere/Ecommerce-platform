@@ -6,6 +6,9 @@
    <header class="myhomepage">
     <h2>Welcome <%= myFirstName %> </h2>
    </header>
+   <% if(message.message){ %>
+    <div id="for-flash"><%= message.message %></div>
+    <% } %>
    <% if (result.length>0){%>
     <div class="items-div">
         <% result.forEach(result =>{%>
@@ -31,8 +34,15 @@
     <div class="no-item">
         <h3>No Items Created</h3>
     </div>
-    
-
    <%}%>
+   <script>
+    const item=document.querySelector('#for-flash');
+    const timer=2
+    function removeFlash(){
+        item.remove();
+    }
+    setTimeout(removeFlash, timer*1000);
+    
+   </script>
 </body>
 </html>

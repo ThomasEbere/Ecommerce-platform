@@ -16,6 +16,7 @@ const Item=require('./models/items');
 const Cart=require('./models/cart');
 const fs = require('fs');
 const path = require('path');
+const flash = require('connect-flash');
 const cookieParser=require("cookie-parser");
 require ('dotenv').config();
 const connectRedis = require('connect-redis').default;
@@ -23,6 +24,7 @@ const redis = require('redis');
 const Publishable_key ='pk_test_51NLSnIJWNtx0XCE5Xiq7sVf90tZR2kwCIx9XyKr34HVqnwR2Fd2Vg9wm55kJrBo8oIzSgphlirbVu7hsL4YH4AD400keQn4Fsk';
 const Secret_Key='sk_test_51NLSnIJWNtx0XCE5kddIYxx0w9BZrsUmMxUHow7yHjSBVLEBlO8SDh3Vb066FAAsXJ8KkEGrRmQ36VrXm4zUwxb100no8mxnN6';
 
+app.use(flash());
 const stripe = require('stripe')(Secret_Key);
 
 let session;
@@ -57,6 +59,11 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static((__dirname)));
 app.use(bodyParser.urlencoded({extended:false}));
+
+app.use(function(req, res, next){
+    res.locals.message = req.flash();
+    next();
+})
 
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -114,19 +121,24 @@ app.get("/usersignup", (req, res)=>{
 
 app.get('/cart/:id', (req, res)=>{
     const id = req.params.id;
-    console.log(id);
+    console.log(typeof(id));
     session=req.session;
     if(session.email){
         let email=req.session.email;
-        Cart.findById({_id:id}).then(data=>{
+        Cart.findOne({item_id:id}).then(data=>{
             if(data && data.added_by==email){
+                console.log(data.item_Name);
                 console.log(data.quantity);
                 let newQuantity=parseInt(data.quantity)+1;
                 console.log(newQuantity);
                 myquantity=newQuantity.toString();
                 console.log(myquantity);
-                Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
-            }else{
+                Cart.updateOne({item_id:id},{"$set":{"quantity":myquantity}}).then(()=>{
+                    req.flash('message', 'Successfully added item to cart');
+                    res.redirect("/homepage")
+                })  
+            }
+            else{
                 Item.findById({_id:id}).then(data=>{
                     data._id=null;
                     const cart=new Cart(data);   
@@ -135,7 +147,7 @@ app.get('/cart/:id', (req, res)=>{
                     cart.isNew=true;
                     cart.item_id=id;
                     cart.save().then(result=>{
-                        console.log("Item Successfully added to cart");
+                        req.flash('message', 'Successfully added item to cart');
                         res.redirect('/');
                     }).catch((err)=>{
                         console.log(err);
@@ -152,7 +164,9 @@ app.get('/cart/:id', (req, res)=>{
 })
 
 app.get("/cart", (req, res)=>{
-    let email=req.session.email;
+    session=req.session
+    if(session.email){
+        let email=req.session.email;
     Cart.find({added_by:email}).then(data=>{
         let title="cart";
         console.log(data.length)
@@ -160,6 +174,11 @@ app.get("/cart", (req, res)=>{
     }).catch((err)=>{
         console.log("no items created");
     })
+    }
+    else{
+        res.redirect("/regularlogin");
+    }
+    
 })
 
 app.get('/add-item/:id', (req, res)=>{
@@ -181,10 +200,16 @@ app.get('/sub-item/:id', (req, res)=>{
     Cart.findById({_id:id}).then(data=>{
         console.log(data.quantity);
         let newQuantity=parseInt(data.quantity)-1;
-        console.log(newQuantity);
-        myquantity=newQuantity.toString();
-        console.log(myquantity);
-        Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
+        if (newQuantity==0){
+            Cart.findByIdAndDelete(id).then(res.redirect("/explore"));
+        }
+        else{
+            console.log(newQuantity);
+            myquantity=newQuantity.toString();
+            console.log(myquantity);
+            Cart.updateOne({_id:id},{"$set":{"quantity":myquantity}}).then(res.redirect("/cart"))
+        }
+        
     })
 })
 
@@ -207,7 +232,6 @@ app.post("/create-admin-user", (req, res)=>{
 app.get("/adminhomepage", (req, res)=>{
     res.render("adminhomepage");
 })
-
 
 app.get("/adminlogin", (req, res)=>{
     res.render("adminlogin");
@@ -322,10 +346,8 @@ app.get('/homepage', (req, res)=>{
         let myFirstName='';
         let email=req.session.email;
         User.findOne({email:email}).then(data =>{
-            // console.log(data.first_name);
-            myFirstName=data.first_name;
             Item.find().then((result)=>{
-                res.render('landingpage', {title:'homepage', myFirstName,result }); 
+                res.render('landingpage', {title:'homepage', myFirstName,result}); 
             }).catch((err)=>{
                 console.log(err);
             })
@@ -384,7 +406,6 @@ app.get('/', (req, res)=>{
     else{
         res.redirect('/regularlogin');
     }
-    
 })
    
 app.get('/regularlogin', (req, res)=>{
@@ -457,7 +478,6 @@ app.post('/payment/:price', (req, res)=>{
         }
     })
     .then((customer) => {
- 
         return stripe.charges.create({
             amount: req.params.price,     // Charging Rs 25
             description: 'Web Development Product',

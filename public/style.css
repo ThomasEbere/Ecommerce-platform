@@ -324,3 +324,11 @@ left:50%;
 .item-details .homepage-item{
     margin-left:15%;
 }
+
+#for-flash{
+    width: 15%;
+    height: 25px;
+    background-color: green;
+    position: absolute;
+    left: 5%;
+}

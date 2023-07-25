@@ -59,3 +59,5 @@ send address information in email to vendor.
 
 
 After purchase, send email to the customer and reduce quantity count
+Generate PDF
+Bulk checkout
