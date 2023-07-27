@@ -58,6 +58,9 @@ capture address information of buyer both when logged in and not
 send address information in email to vendor.
 
 
+
 After purchase, send email to the customer and reduce quantity count
-Generate PDF
+generate pdf
 Bulk checkout
+Add checkout buttons to cart page 
+

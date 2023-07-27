@@ -261,14 +261,14 @@ text-align: center;
 
 .data-items{
     width:50%;
-    height: auto;
+    height: 200px;
     position: relative;
     left: 25%;
 }
 
 .item-details button{
     position: relative;
-    left: 7%;
+    left: 8%;
     margin-bottom: 10px;
 }
 
@@ -331,4 +331,17 @@ left:50%;
     background-color: green;
     position: absolute;
     left: 5%;
+}
+
+.cartcheckbox{
+    display: inline-block;
+}
+
+input[type=checkbox]{
+    float:none;
+    width: 3%;
+    margin-top: 0;
+    margin-right: 2px;
+    position: absolute;
+    top: 50%;
 }

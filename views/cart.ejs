@@ -3,11 +3,11 @@
     <%- include ('../partials/head.ejs') %>
 <body>
     <%- include ('../partials/nav3.ejs') %>
-
     <% if (data.length>0){%>
         <div class="items-div">
             <% data.forEach(data =>{%>
                 <div class="item-details">
+                    <input type="checkbox" name="" id="">
                     <div class="myimage">
                         <img src="data:data/<%=data.image.contentType%>;base64,
                         <%=data.image.data.toString('base64')%>"/>
